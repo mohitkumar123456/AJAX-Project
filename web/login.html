@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./asset/css/login.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body onload="loadBody()">
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+          <!-- Tabs Titles -->
+          <h2 id = "login" onclick="logintab(1)" class="active"> Sign In </h2>
+          <h2  id = "register" onclick="logintab(2)" class="inactive underlineHover">Sign Up </h2>
+      
+          <!-- Icon -->
+          <div class="fadeIn first">
+            <img src="https://icon-library.com/images/ajax-icon/ajax-icon-9.jpg" id="icon" alt="User Icon" height="5px" width="5px"/>
+          </div>
+          
+          <div id="loginform">
+            <!-- Login Form -->
+            <form onsubmit="login()" method="post">
+                <input type="email" id="email" class="fadeIn second" name="email" placeholder="Enter email id">
+                <input type="password" id="password" class="fadeIn third" name="password" placeholder="Enter password password">
+                <input type="submit" class="fadeIn fourth" value="Log In">
+            </form>
+      
+          </div>
+          <div id="registerform">
+            <!-- Login Form -->
+            <form>
+                <input type="text" id="firstname" class="fadeIn second" name="firstname" placeholder="Enter your first name">
+                <input type="text" id="lastname" class="fadeIn second" name="lastname" placeholder="Enter your last name">
+                <input type="email" id="email" class="fadeIn second" name="email" placeholder="Enter your email id">
+                <input type="password" id="password" class="fadeIn third" name="login" placeholder="Please enter the password">
+                <input type="submit" class="fadeIn fourth" value="Log In">
+            </form>
+      
+          </div>
+          
+          <!-- Remind Passowrd -->
+          <div id="formFooter">
+            <a class="underlineHover" href="#">Forgot Password?</a>
+          </div>
+      
+        </div>
+      </div>
+      <script>
+        function loadBody(){
+            const div =  document.getElementById('login');
+            div.classList.remove('inactive');
+            div.classList.add('active')
+
+            const div2 =  document.getElementById('register');
+            div2.classList.remove('active');
+            div2.classList.add('inactive')
+
+            const form1 = document.getElementById('registerform');
+            form1.style.display = "none"
+        }
+
+        
+        
+     </script>
+</body>
+<script>
+    function logintab(id){
+        
+        if(id==1){
+            //registration tab
+            const div =  document.getElementById('login');
+            div.classList.remove('inactive');
+            div.classList.add('active')
+
+            const div2 =  document.getElementById('register');
+            div2.classList.remove('active');
+            div2.classList.add('inactive')
+
+            const form1 = document.getElementById('registerform');
+            form1.style.display = "none"
+            const form2 = document.getElementById('loginform');
+            form2.style.display = "block"
+            
+            
+
+        }
+        if(id==2){
+            //registration tab
+            const div =  document.getElementById('register');
+            div.classList.remove('inactive');
+            div.classList.add('active')
+
+            const div2 =  document.getElementById('login');
+            div2.classList.remove('active');
+            div2.classList.add('inactive')
+            const form1 = document.getElementById('loginform');
+            form1.style.display = "none"
+            const form2 = document.getElementById('registerform');
+            form2.style.display = "block"
+        }
+    }
+
+    function login(){
+        var formData = {
+            password:  $("#password").val(),
+            email: $("#email").val(),
+            
+        };
+        console.log(formData)
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:4001/login",
+            data: formData,
+            dataType: "json",
+            encode: true,
+            }).done(function (data) {
+                debugger
+                console.log("we are here ")
+            console.log(data);
+        });
+
+        
+    }
+  
+
+
+</script>
+
+</html>

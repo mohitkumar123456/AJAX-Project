@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./asset/css/login.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity=
+        "sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
+        crossorigin="anonymous">
+    </script>
 </head>
 <body onload="loadBody()">
     <div class="wrapper fadeInDown">
@@ -15,37 +19,34 @@
           <h2 id = "login" onclick="logintab(1)" class="active"> Sign In </h2>
           <h2  id = "register" onclick="logintab(2)" class="inactive underlineHover">Sign Up </h2>
       
-          <!-- Icon -->
-          <div class="fadeIn first">
-            <img src="https://icon-library.com/images/ajax-icon/ajax-icon-9.jpg" id="icon" alt="User Icon" height="5px" width="5px"/>
-          </div>
           
           <div id="loginform">
             <!-- Login Form -->
-            <form onsubmit="login()" method="post">
+            <div >
                 <input type="email" id="email" class="fadeIn second" name="email" placeholder="Enter email id">
                 <input type="password" id="password" class="fadeIn third" name="password" placeholder="Enter password password">
-                <input type="submit" class="fadeIn fourth" value="Log In">
-            </form>
+                <input type="submit" class="fadeIn fourth" value="Log In" onclick="login()">
+            </div>
       
           </div>
           <div id="registerform">
             <!-- Login Form -->
-            <form>
+            <div>
                 <input type="text" id="firstname" class="fadeIn second" name="firstname" placeholder="Enter your first name">
                 <input type="text" id="lastname" class="fadeIn second" name="lastname" placeholder="Enter your last name">
-                <input type="email" id="email" class="fadeIn second" name="email" placeholder="Enter your email id">
-                <input type="password" id="password" class="fadeIn third" name="login" placeholder="Please enter the password">
-                <input type="submit" class="fadeIn fourth" value="Log In">
-            </form>
+                <input type="email" id="email1" class="fadeIn second" name="email" placeholder="Enter your email id">
+                <input type="password" id="password1" class="fadeIn third" name="login" placeholder="Please enter the password">
+                <input type="submit" class="fadeIn fourth" value="Log In" onclick="register()">
+            </div>
       
           </div>
+          <h2 id="demo"></h2>
           
           <!-- Remind Passowrd -->
           <div id="formFooter">
             <a class="underlineHover" href="#">Forgot Password?</a>
           </div>
-      
+          
         </div>
       </div>
       <script>
@@ -105,26 +106,65 @@
 
     function login(){
         var formData = {
-            password:  $("#password").val(),
             email: $("#email").val(),
-            
+            password:  $("#password").val(),
         };
-        console.log(formData)
+        // $.post('http://localhost:4002/login', formData, function(response){ 
+        //     alert("success");
+        //     $("#demo").html(response);
+        // });
+        
+
         $.ajax({
             type: "POST",
-            url: "http://localhost:4001/login",
+            url: 'login',
             data: formData,
-            dataType: "json",
-            encode: true,
-            }).done(function (data) {
-                debugger
-                console.log("we are here ")
-            console.log(data);
-        });
+            success: function (data) {
+                    console.log('Success');
+                    console.log(data);
+                    window.location = '/cart';
+                },  
+            error: function (data) {
+
+                    alert(data)
+                    console.log('We are sorry but our servers are having an issue right now');
+                }
+            }).done(function(data) {
+                
+
+            });
+        
 
         
     }
-  
+    function register(){
+        var formData = {
+            first_name: $("#firstname").val(),
+            last_name:  $("#lastname").val(),
+            email:  $("#email1").val(),
+            password:  $("#password1").val(),
+        };
+        $.ajax({
+            type: "POST",
+            url: 'register',
+            data: formData,
+            success: function (data) {
+                    console.log('Success');
+                    console.log(data);
+                    window.location = '/';
+                },  
+            error: function (data) {
+                    alert(data.responseJSON.message)
+                    console.log('We are sorry but our servers are having an issue right now');
+                }
+            }).done(function(data) {
+                
+
+            });
+        
+
+        
+    }
 
 
 </script>

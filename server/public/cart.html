@@ -2,19 +2,22 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="./asset/css/cart_style.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.4/datatables.min.css"/>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.4/datatables.min.js"></script>
+  
   <script type="text/javascript">
 
     $(document).ready(function(){
 
       $.ajax({
         type:'post',
-        url:'http://localhost:3007/v',
+        url:'/totalitems',
         data:{
           total_cart_items:"totalitems"
         },
         success:function(response) {
-          document.getElementById("total_items").value=response;
+          document.getElementById("total_items").value=response.totalitems;
         }
       });
 
@@ -29,34 +32,44 @@
 	
 	  $.ajax({
         type:'post',
-        url:'store_items.php',
+        url:'/storeitem',
         data:{
           item_src:img_src,
           item_name:name,
           item_price:price
         },
         success:function(response) {
-          document.getElementById("total_items").value=response;
+          document.getElementById("total_items").value=response.totalitems;
         }
       });
 	
     }
+    function show_cart(){
+      $("#mycart").slideToggle();
+            let data
+            $('#example').DataTable( {
+                "ajax": "showitem",
+                "columns": [
+                    { "data": "item_src" },
+                    { "data": "item_name" },
+                    { "data": "item_price" }
+                ]
+            } );
+        }
 
-    function show_cart()
-    {
-      $.ajax({
-      type:'post',
-      url:'store_items.php',
-      data:{
-        showcart:"cart"
-      },
-      success:function(response) {
-        document.getElementById("mycart").innerHTML=response;
-        $("#mycart").slideToggle();
-      }
-     });
+        function logout(){
+          $.ajax({
+            type:'post',
+            url:'/logout',
+            success:function(response) {
+              window.location = '/'
+            }
+          });
+        }
+    
+    
+    
 
-    }
 	
 </script>
   
@@ -65,19 +78,44 @@
 <body>
 
 <p id="cart_button" onclick="show_cart();">
-  <img src="cart_icon.png">
+  <img src="https://media.istockphoto.com/vectors/shopping-cart-icon-isolated-on-white-background-vector-id1206806317?k=20&m=1206806317&s=612x612&w=0&h=waK8qOHV2Fgz2ntEWHWBQtXpNDAQ_wdhd4tkTUz6tfE=">
   <input type="button" id="total_items" value="">
 </p>
 
 <div id="mycart">
+  <div class="table-responsive">
+    <table id="example" class="display" style="width:100%">
+      <thead>
+          <tr>
+              <th>IMage</th>
+              <th>Name</th>
+              <th>Price.</th>
+          </tr>
+      </thead>
+      <tfoot>
+          <tr>
+            <th>IMage</th>
+            <th>Name</th>
+            <th>Price.</th>
+          </tr>
+      </tfoot>
+  </table>
+
+  </div>
 </div>
 
-<h1>Simple Add To Cart System Using jQuery,Ajax And PHP</h1>
+
+
+<h1>Code For Interview</h1>
+
+<div id="logout">
+  <button type="button" onclick="logout()"> Logout</button>
+</div>
 
 <div id="item_div">
 
   <div class="items" id="item1">
-    <img src="product1.jpg">
+    <img src="https://images.bewakoof.com/t540/navy-blue-half-sleeve-t-shirt-115-1637159869-2.jpg">
     <input type="button" value="Add To CART" onclick="cart('item1')">
     <p>Simple Navy Blue T-Shirt</p>
     <p>Price - $95</p>
@@ -86,7 +124,7 @@
   </div>
 
   <div class="items" id="item2">
-    <img src="product2.jpg">
+    <img src="https://images.bewakoof.com/t540/navy-blue-half-sleeve-t-shirt-115-1637159869-2.jpg">
     <input type="button" value="Add To CART" onclick="cart('item2')">
     <p>Trendy T-Shirt With Back Design</p>
     <p>Price - $105</p>
@@ -95,7 +133,7 @@
   </div>
   
   <div class="items" id="item3">
-    <img src="product3.jpg">
+    <img src="https://images.bewakoof.com/t540/navy-blue-half-sleeve-t-shirt-115-1637159869-2.jpg">
     <input type="button" value="Add To CART" onclick="cart('item3')">
     <p>Two Color Half-Sleeves T-Shirt</p>
     <p>Price - $120</p>
@@ -104,7 +142,7 @@
   </div>
 
   <div class="items" id="item4">
-    <img src="product4.jpg">
+    <img src="https://images.bewakoof.com/t540/navy-blue-half-sleeve-t-shirt-115-1637159869-2.jpg">
     <input type="button" value="Add To CART" onclick="cart('item4')">
     <p>Stylish Grey Chinos For Mens</p>
     <p>Price - $140</p>
@@ -113,7 +151,7 @@
   </div>
 
   <div class="items" id="item5">
-    <img src="product5.jpg">
+    <img src="https://images.bewakoof.com/t540/navy-blue-half-sleeve-t-shirt-115-1637159869-2.jpg">
     <input type="button" value="Add To CART" onclick="cart('item5')">
     <p>Comfortable Pants For Working</p>
     <p>Price - $130</p>
@@ -122,7 +160,7 @@
   </div>
 
   <div class="items" id="item6">
-    <img src="product6.jpg">
+    <img src="https://images.bewakoof.com/t540/navy-blue-half-sleeve-t-shirt-115-1637159869-2.jpg">
     <input type="button" value="Add To CART" onclick="cart('item6')">
     <p>Slim Track Pant For Jogging</p>
     <p>Price - $90</p>
